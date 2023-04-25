@@ -9,6 +9,8 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb2D;
     private Animator myAnimator;
 
+    private bool facingRight = true;
+
     public float speed = 2.0f;
     public float horizMovement;
 
@@ -22,12 +24,23 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        horizMovement = Input.GetAxis("Horizontal");
+        horizMovement = Input.GetAxisRaw("Horizontal");
     }
 
     private void FixedUpdate()
     {
         rb2D.velocity = new Vector2(horizMovement*speed,rb2D.velocity.y);
+        Flip(horizMovement);
+    }
 
+    private void Flip(float horizontal)
+    {
+        if (horizontal < 0 && facingRight || horizontal>0 && !facingRight)
+        {
+            facingRight = !facingRight;
+            Vector3 scale = transform.localScale;
+            scale.x *= -1;
+            transform.localScale = scale;
+        }
     }
 }
