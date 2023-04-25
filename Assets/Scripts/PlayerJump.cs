@@ -22,7 +22,7 @@ public class PlayerJump : MonoBehaviour
     private void Update()
     {
         grounded = Physics2D.OverlapCircle(groundCheck.position, radOCircle, whatIsGround);
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Jump") && grounded)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         }
