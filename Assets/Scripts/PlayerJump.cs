@@ -26,12 +26,6 @@ public class PlayerJump : MonoBehaviour
         myAnimator = GetComponent<Animator>();
     }
 
-    //myAnimator.SetBool("falling", true);
-    //myAnimator.SetBool("falling", false);
-
-    //myAnimator.SetTrigger("jump");
-    //myAnimator.ResetTrigger("jump");
-
     private void Update()
     {
         grounded = Physics2D.OverlapCircle(groundCheck.position, radOCircle, whatIsGround);
