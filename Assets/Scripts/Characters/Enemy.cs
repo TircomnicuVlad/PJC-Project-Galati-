@@ -6,7 +6,7 @@ public class Enemy : MonoBehaviour
 {
     public Animator animator;
 
-    public int maxHealth = 10;
+    public int maxHealth = 100;
     int currentHealth;
 
     public float speed = 1.0f;
@@ -25,7 +25,6 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
-
         currentHealth = maxHealth;
         startPosition = transform.position;
         initialScale = transform.localScale;
@@ -34,8 +33,11 @@ public class Enemy : MonoBehaviour
         isChasing = false;
         startTime = Time.time;
     }
+
     void Move()
     {
+        float yPos = transform.position.y;
+
         if (Vector3.Distance(transform.position, player.transform.position) < chaseDistance)
         {
             if (!isChasing)
@@ -43,7 +45,8 @@ public class Enemy : MonoBehaviour
                 isChasing = true;
             }
 
-            transform.position = Vector3.MoveTowards(transform.position, new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z), speed * Time.deltaTime);
+            float step = speed * Time.deltaTime;
+            transform.position = new Vector3(Mathf.MoveTowards(transform.position.x, player.transform.position.x, step), yPos, transform.position.z);
 
             if (transform.position.x < player.transform.position.x && transform.localScale.x < 0)
             {
@@ -76,27 +79,27 @@ public class Enemy : MonoBehaviour
                 transform.localScale = new Vector3(-Mathf.Abs(initialScale.x), initialScale.y, initialScale.z);
             }
 
-            transform.position = startPosition + new Vector3(newPosition, 0, 0);
+            transform.position = new Vector3(startPosition.x + newPosition, yPos, startPosition.z);
             previousPosition = transform.position.x;
         }
     }
+
     void Update()
     {
-       
+        Move();
     }
 
 
-    public void TakeDamage(int damage) 
+    public void TakeDamage(int damage)
     {
         currentHealth -= damage;
-        
+
         animator.SetTrigger("Hurt");
 
-        if(currentHealth<=0) 
+        if (currentHealth <= 0)
         {
             Die();
         }
-
     }
 
     void Die()
@@ -105,7 +108,6 @@ public class Enemy : MonoBehaviour
         this.isDead = true;
 
         animator.SetBool("IsDead", true);
-
 
         foreach (Collider2D c in GetComponents<Collider2D>())
         {

@@ -16,6 +16,7 @@ public class PlayerCombat : MonoBehaviour
 
     public float attackRate = 0.5f;
     float nextAttackTime = 0f;
+    public float attackDelay = 0.3f;
 
 
     // Update is called once per frame
@@ -33,16 +34,21 @@ public class PlayerCombat : MonoBehaviour
       
     }
 
+    IEnumerator DelayedDamage(Collider2D enemyCollider)
+    {
+        yield return new WaitForSeconds(attackDelay);
+        enemyCollider.GetComponent<Enemy>().TakeDamage(attackDamage);
+    }
+
     void Attack()
     {
         animator.SetTrigger("attack");
 
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
-        foreach(Collider2D enemy in hitEnemies)
+        foreach (Collider2D enemy in hitEnemies)
         {
-            enemy.GetComponent<Enemy>().TakeDamage(attackDamage);
+            StartCoroutine(DelayedDamage(enemy));
         }
-
     }
 
     void OnDrawGizmosSelected()
