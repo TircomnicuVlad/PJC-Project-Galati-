@@ -46,6 +46,10 @@ public class PlayerMovement : MonoBehaviour
             StartCoroutine(Dash());
         }
 
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            myAnimator.SetTrigger("attack");
+        }
 
     }
 
