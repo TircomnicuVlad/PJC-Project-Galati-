@@ -13,7 +13,7 @@ public class CollisionController : MonoBehaviour
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {
-        if (collision.gameObject.name == "Enemy_1" && !isDead) {
+        if ((collision.gameObject.name == "Enemy_1" || collision.gameObject.transform.parent.gameObject.name == "deathplatforms") && !isDead) {
             isDead = true;
             gameObject.SetActive(false);
             gameManager.gameOver();
@@ -21,7 +21,7 @@ public class CollisionController : MonoBehaviour
     }
 
     private void OnCollisionStay2D(Collision2D collision) {
-        if (collision.gameObject.name == "Enemy_1" && !isDead)
+        if ((collision.gameObject.name == "Enemy_1" || collision.gameObject.transform.parent.gameObject.name == "deathplatforms") && !isDead)
         {
             isDead = true;
             gameObject.SetActive(false);
@@ -30,7 +30,7 @@ public class CollisionController : MonoBehaviour
     }
 
     private void OnCollisionExit2D(Collision2D collision) {
-        if (collision.gameObject.name == "Enemy_1" && !isDead)
+        if ((collision.gameObject.name == "Enemy_1" || collision.gameObject.transform.parent.gameObject.name == "deathplatforms") && !isDead)
         {
             isDead = true;
             gameObject.SetActive(false);
