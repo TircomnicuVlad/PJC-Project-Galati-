@@ -101,16 +101,23 @@ public class Enemy : MonoBehaviour
 
     void Die()
     {
-        UnityEngine.Debug.Log("inamic mort");
+        UnityEngine.Debug.Log("Enemy died");
         this.isDead = true;
-
-        Rigidbody2D enemyRigidbody = GetComponent<Rigidbody2D>();
-        enemyRigidbody.bodyType = RigidbodyType2D.Static;
 
         animator.SetBool("IsDead", true);
 
-        gameObject.GetComponent<Collider2D>().enabled = false;
-        this.enabled = false;
 
+        foreach (Collider2D c in GetComponents<Collider2D>())
+        {
+            c.enabled = false;
+        }
+
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        if (rb != null)
+        {
+            rb.simulated = false;
+        }
+
+        this.enabled = false;
     }
 }
