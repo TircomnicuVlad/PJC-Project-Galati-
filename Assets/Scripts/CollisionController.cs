@@ -6,6 +6,12 @@ public class CollisionController : MonoBehaviour
 {
     public GameManagerScript gameManager;
     private bool isDead;
+
+    private void Start()
+    {
+        gameManager = FindObjectOfType<GameManagerScript>();
+    }
+
     private void OnCollisionEnter2D(Collision2D collision) {
         if (collision.gameObject.name == "Enemy_1" && !isDead) {
             isDead = true;
