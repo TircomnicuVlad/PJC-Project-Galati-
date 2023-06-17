@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    public Animator animator;
+
+    public int maxHealth = 10;
+    int currentHealth;
+
     public float speed = 1.0f;
     public float distance = 2f;
     public float chaseDistance = 5f;
@@ -18,6 +23,8 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
+
+        currentHealth = maxHealth;
         startPosition = transform.position;
         initialScale = transform.localScale;
         previousPosition = transform.position.x;
@@ -25,8 +32,7 @@ public class Enemy : MonoBehaviour
         isChasing = false;
         startTime = Time.time;
     }
-
-    void Update()
+    void Move()
     {
         if (Vector3.Distance(transform.position, player.transform.position) < chaseDistance)
         {
@@ -71,5 +77,33 @@ public class Enemy : MonoBehaviour
             transform.position = startPosition + new Vector3(newPosition, 0, 0);
             previousPosition = transform.position.x;
         }
+    }
+    void Update()
+    {
+       
+    }
+
+
+    public void TakeDamage(int damage) 
+    {
+        currentHealth -= damage;
+
+        animator.SetTrigger("Hurt");
+
+        if(currentHealth<=0) 
+        {
+            Die();
+        }
+
+    }
+
+    void Die()
+    {
+        UnityEngine.Debug.Log("inamic mort");
+
+        animator.SetBool("IsDead", true);
+
+        GetComponent<Collider2D>().enabled = false;
+        this.enabled = false;
     }
 }
