@@ -21,6 +21,8 @@ public class Enemy : MonoBehaviour
     private bool isChasing;
     private float startTime;
 
+    public bool isDead = false;
+
     void Start()
     {
 
@@ -87,7 +89,7 @@ public class Enemy : MonoBehaviour
     public void TakeDamage(int damage) 
     {
         currentHealth -= damage;
-
+        
         animator.SetTrigger("Hurt");
 
         if(currentHealth<=0) 
@@ -100,10 +102,15 @@ public class Enemy : MonoBehaviour
     void Die()
     {
         UnityEngine.Debug.Log("inamic mort");
+        this.isDead = true;
+
+        Rigidbody2D enemyRigidbody = GetComponent<Rigidbody2D>();
+        enemyRigidbody.bodyType = RigidbodyType2D.Static;
 
         animator.SetBool("IsDead", true);
 
-        GetComponent<Collider2D>().enabled = false;
+        gameObject.GetComponent<Collider2D>().enabled = false;
         this.enabled = false;
+
     }
 }
