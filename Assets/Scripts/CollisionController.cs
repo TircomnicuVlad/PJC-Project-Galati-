@@ -14,10 +14,10 @@ public class CollisionController : MonoBehaviour
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {
-        if ((collision.gameObject.name.Contains("Enemy") || collision.gameObject.transform.parent.gameObject.name == "deathplatforms") && !isDead)
+        Debug.Log(collision.gameObject.name);
+        if ((collision.gameObject?.name.Contains("Enemy") ?? false || collision.gameObject.name.Contains("deathplatform")) && !isDead)
         {
-
-            if (collision.gameObject.name == "Enemy")
+            if (collision.gameObject?.name.Contains("Enemy") ?? false)
             {
                 Enemy enemy = collision.gameObject.GetComponent<Enemy>();
                 if (enemy != null && enemy.isDead)
@@ -32,7 +32,7 @@ public class CollisionController : MonoBehaviour
             gameManager.gameOver();
         }
 
-        else if (collision.gameObject.name == "winobject" && !isWon) {
+        if ((collision.gameObject.name.Contains("winobject"))&&!isWon) {
             isWon = true;
             gameObject.SetActive(false);
             gameManager.gameWin();
@@ -40,9 +40,10 @@ public class CollisionController : MonoBehaviour
     }
 
     private void OnCollisionStay2D(Collision2D collision) {
-        if ((collision.gameObject.name.Contains("Enemy") || collision.gameObject.transform.parent.gameObject.name == "deathplatforms") && !isDead)
+        if ((collision.gameObject?.name.Contains("Enemy") ?? false || collision.gameObject.name.Contains("deathplatform")) && !isDead)
         {
-            if (collision.gameObject.name.Contains("Enemy"))
+            Debug.Log("here");
+            if (collision.gameObject?.name.Contains("Enemy") ?? false)
             {
                 Enemy enemy = collision.gameObject.GetComponent<Enemy>();
                 if (enemy != null && enemy.isDead)
@@ -54,7 +55,7 @@ public class CollisionController : MonoBehaviour
             gameObject.SetActive(false);
             gameManager.gameOver();
         }
-        else if (collision.gameObject.name == "winobject" && !isWon)
+        if ((collision.gameObject.name.Contains("winobject")) && !isWon)
         {
             isWon = true;
             gameObject.SetActive(false);
@@ -63,9 +64,9 @@ public class CollisionController : MonoBehaviour
     }
 
     private void OnCollisionExit2D(Collision2D collision) {
-        if ((collision.gameObject.name.Contains("Enemy") || collision.gameObject.transform.parent.gameObject.name == "deathplatforms") && !isDead)
+        if ((collision.gameObject?.name.Contains("Enemy") ?? false || collision.gameObject.name.Contains("deathplatform")) && !isDead)
         {
-            if (collision.gameObject.name.Contains("Enemy"))
+            if (collision.gameObject?.name.Contains("Enemy") ?? false)
             {
                 Enemy enemy = collision.gameObject.GetComponent<Enemy>();
                 if (enemy != null && enemy.isDead)
@@ -77,7 +78,7 @@ public class CollisionController : MonoBehaviour
             gameObject.SetActive(false);
             gameManager.gameOver();
         }
-        else if (collision.gameObject.name == "winobject" && !isWon)
+        if ((collision.gameObject.name.Contains("winobject")) && !isWon)
         {
             isWon = true;
             gameObject.SetActive(false);
